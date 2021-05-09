@@ -1,3 +1,5 @@
+<img src="static/enema-logo.png" style="max-width:300px;width:25%">
+
 # Enema
 
 Enema is a Resource Congestion Resolution Service. It's a very simple Python Web App with an API that can be used to detect resource availability in CI pipelines and help the CI runner decide which node has external resources necessary for testing available.

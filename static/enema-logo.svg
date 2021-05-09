@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   sodipodi:docname="enema-logo.svg"
+   inkscape:version="1.0 (4035a4f, 2020-05-01)"
+   width="210mm"
+   height="297mm"
+   viewBox="0 0 210 297"
+   version="1.1"
+   id="svg8">
+  <defs
+     id="defs2">
+    <rect
+       id="rect18"
+       height="34.673893"
+       width="45.668055"
+       y="75.690572"
+       x="35.942451" />
+    <rect
+       id="rect12"
+       height="45.245202"
+       width="54.970807"
+       y="32.982484"
+       x="65.119263" />
+  </defs>
+  <sodipodi:namedview
+     inkscape:window-maximized="0"
+     inkscape:window-y="780"
+     inkscape:window-x="0"
+     inkscape:window-height="907"
+     inkscape:window-width="1252"
+     showgrid="false"
+     inkscape:document-rotation="0"
+     inkscape:current-layer="layer1"
+     inkscape:document-units="mm"
+     inkscape:cy="473.23793"
+     inkscape:cx="455.0368"
+     inkscape:zoom="0.62571091"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     id="layer1"
+     inkscape:groupmode="layer"
+     inkscape:label="Layer 1">
+    <text
+       style="fill:black;fill-opacity:1;line-height:1.25;stroke:none;font-family:sans-serif;font-style:normal;font-weight:normal;font-size:10.58333333000000032px;white-space:pre;shape-inside:url(#rect18);"
+       id="text16"
+       xml:space="preserve" />
+    <text
+       y="162.79816"
+       x="149.68973"
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:20px;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
+       id="text115"><tspan
+   xml:space="preserve"
+   style="font-style:normal;font-weight:normal;font-size:132.758px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:3.31895"
+   id="tspan109">       <tspan
+   xml:space="preserve"
+   style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Arial Rounded MT Bold';-inkscape-font-specification:'Arial Rounded MT Bold, ';stroke-width:3.31895"
+   id="tspan107" />    </tspan>   <tspan
+   xml:space="preserve"
+   style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;white-space:pre;shape-inside:url(#rect12);fill:#000000;fill-opacity:1;stroke:none"
+   id="tspan113">
+      <tspan
+   xml:space="preserve"
+   style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Arial Rounded MT Bold';-inkscape-font-specification:'Arial Rounded MT Bold, '"
+   id="tspan111" />
+    </tspan>    </text>
+    <g
+       transform="translate(-4.373642)"
+       id="g202">
+      <rect
+         style="fill:#ff6600;stroke-width:0.264583"
+         id="rect144"
+         width="22.411175"
+         height="122.20433"
+         x="93.794411"
+         y="87.397835" />
+      <rect
+         y="-157.4337"
+         x="137.29442"
+         height="63.427853"
+         width="22.411175"
+         id="rect144-9"
+         style="fill:#ff6600;stroke-width:0.190616"
+         transform="rotate(90)" />
+      <rect
+         transform="rotate(90)"
+         style="fill:#ff6600;stroke-width:0.190616"
+         id="rect144-9-0"
+         width="22.411175"
+         height="63.427856"
+         x="187.19099"
+         y="-157.22226" />
+      <rect
+         transform="rotate(90)"
+         style="fill:#ff6600;stroke-width:0.190616"
+         id="rect144-9-5"
+         width="22.411175"
+         height="63.427856"
+         x="87.397835"
+         y="-157.22226" />
+      <rect
+         transform="rotate(90)"
+         style="fill:#aa4400;stroke-width:0.15872"
+         id="rect144-9-3"
+         width="22.411175"
+         height="43.976646"
+         x="137.63844"
+         y="-105.29023" />
+    </g>
+  </g>
+</svg>
