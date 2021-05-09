@@ -1,4 +1,4 @@
-![logo](static/enema-logo.png | width=100)
+<img src="static/enema-logo.png" style="width:15%">
 
 # Enema
 
