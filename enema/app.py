@@ -16,7 +16,8 @@ from dataclasses import dataclass
 from typing import ClassVar
 import dash_auth
 from enema.crypto import decrypt_password, KEY
-from enema.api import flask_app
+from flask_restful import Api
+from enema.data_model import SubsystemsRoute, ScheduleRoute
 from threading import Thread
 
 
@@ -226,14 +227,12 @@ for subsystem_id in df['subsystem_id']:
         return *validate(subsystem_id), n_clicks_prev_claim, n_clicks_prev_release
 
 
-front_end_server = app.server
-back_end_server = flask_app
+api = Api(app.server)
 
-t_front_end = Thread(target=lambda: app.run_server(debug=True, use_reloader=False))
-t_back_end = Thread(target=flask_app.run)
+api.add_resource(SubsystemsRoute, '/status')
+api.add_resource(ScheduleRoute, '/schedule')
+
+server = app.server
 
 if __name__ == '__main__':
-    t_front_end.start()
-    t_back_end.start()
-    t_front_end.join()
-    t_back_end.join()
+    app.run_server(debug=True)
