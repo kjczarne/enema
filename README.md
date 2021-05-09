@@ -60,3 +60,17 @@ When the table is populated, each subsystem is displayed on a separate row with 
     ```
 
     Note that the API token should be placed where the `$DASH_API_TOKEN` variable is. It's nice to use an env variable here for added opacity when sending requests with `curl`.
+
+5. When sending `POST` requests make sure you're sending them with `Content-Type: application/json` header. Otherwise the requests won't get through. Of course for `POST` you need the `Authorization` header as well.
+
+#### The API routes you may currently use
+
+* `/status`
+  * `GET` - retreives the complete list of all subsystems
+* `/subsystem/status/<string:subsystem_id>`
+  * `GET` - retrieves the current status of a system with a particular ID (hint: if you do know the name of a subsystem but don't know its ID, use `/status` route to find it).
+  * `POST` - switches the status value for a given subsystem with a JSON request in the form of: `{"status": 1}`. Value 1 is for **busy** and value 0 is for **free**.
+* `/nodes`
+  * `GET` - retrieves the complete list of all nodes
+
+More routes are coming soon along with more complete Web App interface.
