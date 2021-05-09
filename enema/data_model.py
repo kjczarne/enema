@@ -103,7 +103,13 @@ class SubsystemStatusRoute(Resource):
 
     def get(self, subsystem_id):
         """Gets a particular subsystem status"""
-        resp = get_joined_nodes_and_subsystems().loc[subsystem_id]
+        df = get_joined_nodes_and_subsystems()
+        resp = df[df['subsystem_id'] == int(subsystem_id)]['is_busy']
+        resp = list(resp)
+        if len(resp) > 0:
+            resp = resp[0]
+        else:
+            return {'message': f'no subsystem with ID {subsystem_id} seems to exist'}, 400
         return with_auth(resp, get_auth_header())
 
     def post(self, subsystem_id):
