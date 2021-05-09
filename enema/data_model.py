@@ -16,12 +16,14 @@ root = Path(os.path.dirname(__file__))
 
 db_connection = lambda: sqlite3.connect(root / 'app.db')
 
-read_table = lambda table: pd.read_sql_query(
-    f"SELECT * FROM {table}", 
-    db_connection()
-)
 
-get_rows = lambda df: [row.to_dict() for _, row in df.iterrows()]
+def read_table(table): 
+    """Reads a SQL table into a Pandas DataFrame"""
+    return pd.read_sql_query(
+        f"SELECT * FROM {table}", 
+        db_connection()
+    )
+
 
 @dataclass
 class Tables:
@@ -32,11 +34,24 @@ class Tables:
     api_auth: ClassVar[str] = "api_auth"
 
 
-update_status = lambda val, id: db_connection().executescript(
-    f"UPDATE {Tables.subsystems} SET is_busy = {val} WHERE subsystem_id = {id}"
-)
+def update_table(val, id, table, column, pk_column):
+    """Generalized function that updates a record queried
+    by a primary key"""
+    if type(val) is str:
+        val = f"'{val}'"  # SQL string quotes
+    db_connection().executescript(
+        f"UPDATE {table} SET {column} = {val} WHERE {pk_column} = {id}"
+    )
 
-get_joined_nodes_and_subsystems = lambda: pd.read_sql_query(f"""
+
+def update_status(val, id):
+    """Updates Subsystem status value"""
+    update_table(val, id, Tables.subsystems, 'status', 'subsystem_id')
+
+
+def get_joined_nodes_and_subsystems():
+    """Retrieves a left-joined subsystems and nodes table"""
+    return pd.read_sql_query(f"""
 select * from {Tables.subsystems}
 left join {Tables.nodes} 
 ON {Tables.subsystems}.node_id = {Tables.nodes}.node_id;
@@ -57,7 +72,14 @@ def with_auth(response, auth_header):
     return {'message': 'unauthorized!'}, 401
 
 
-class SubsystemsRoute(Resource):
+general_bad_request_message = {
+    'message': 'bad request, ' + \
+               'make sure you send JSON data like {"status": 1} and ' + \
+               'that the Content-Type: application/json header is set'
+    }, 400
+
+
+class StatusRoute(Resource):
     
     def get(self):
         """Gets all subsystem as a list of rows from the table"""
@@ -65,17 +87,41 @@ class SubsystemsRoute(Resource):
         return with_auth(resp, get_auth_header())
     
     def post(self):
-        """Adds new subsystem into the table"""
+        """#TODO:Adds new subsystem into the table"""
         pass
 
     def put(self):
-        """Updates existing subsystem in the table"""
+        """#TODO:Updates existing subsystem in the table"""
         pass
-        # TODO: sub-route that handles status update (/subsystem/{id}/status)
 
     def delete(self):
-        """Removes a subsystem from the table"""
+        """#TODO:Removes a subsystem from the table"""
         pass
+
+
+class SubsystemStatusRoute(Resource):
+
+    def get(self, subsystem_id):
+        """Gets a particular subsystem status"""
+        resp = get_joined_nodes_and_subsystems().loc[subsystem_id]
+        return with_auth(resp, get_auth_header())
+
+    def post(self, subsystem_id):
+        """Sets a particular subsystem status"""
+        req = request.json
+        print(req)
+        if req:
+            resp, return_code = with_auth({}, get_auth_header())
+            if return_code == 200:
+                status = req['status']
+                update_status(status, subsystem_id)
+                return {'message': f'status successfully set to {status} for subsystem {subsystem_id}'}, 200
+            return resp, return_code
+        return general_bad_request_message
+    
+    def put(self, subsystem_id):
+        """Sets a particular subsystem status, equivalent to POST"""
+        self.post(subsystem_id)
 
 
 class NodesRoute(Resource):
@@ -86,13 +132,13 @@ class NodesRoute(Resource):
         return with_auth(resp, get_auth_header())
     
     def post(self):
-        """Adds new node into the table"""
+        """#TODO:Adds new node into the table"""
         pass
 
     def put(self):
-        """Updates existing node in the table"""
+        """#TODO:Updates existing node in the table"""
         pass
 
     def delete(self):
-        """Removes a node from the table"""
+        """#TODO:Removes a node from the table"""
         pass

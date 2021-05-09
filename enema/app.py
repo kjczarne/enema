@@ -18,8 +18,8 @@ import dash_auth
 from enema.crypto import decrypt_password, KEY
 from flask_restful import Api
 from enema.data_model import (
-    SubsystemsRoute, NodesRoute, db_connection,
-    read_table, Tables, update_status, get_rows,
+    SubsystemStatusRoute, NodesRoute, StatusRoute, db_connection,
+    read_table, Tables, update_status,
     get_joined_nodes_and_subsystems
 )
 from threading import Thread
@@ -118,7 +118,7 @@ app.layout = html.Div(children=[
 )
 def on_load_subsystems(n_clicks, n_clicks_prev):
     df = get_joined_nodes_and_subsystems()
-    rows = get_rows(df)
+    rows = df.to_dict('records')
     is_busy, style = validate(subsystem_id)
     subsystem_records = [
         html.Tr(children=[
@@ -205,7 +205,8 @@ for subsystem_id in df['subsystem_id']:
 
 api = Api(app.server)
 
-api.add_resource(SubsystemsRoute, '/status')
+api.add_resource(StatusRoute, '/status')
+api.add_resource(SubsystemStatusRoute, '/subsystem/status/<string:subsystem_id>')
 api.add_resource(NodesRoute, '/nodes')
 
 server = app.server
