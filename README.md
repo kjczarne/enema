@@ -43,4 +43,20 @@ When the table is populated, each subsystem is displayed on a separate row with 
 
 ### API support
 
-Coming soon!
+1. Use `openssl rand -base64 32` to generate an API token.
+
+2. Encrypt the API token the same way you encrypted the user passwords, using `enema.crypto`'s `encrypt_password` function. Remember to set the `DASH_APP_KEY` variable prior to that.
+
+3. Take the Fernet-encrypted string and copy it. Like with the user password you will need to add it to the database, this time to the `api_auth` table:
+
+    ```sql
+    INSERT INTO api_auth VALUES(0, 'user', 'encrypted token here')
+    ```
+
+4. When sending requests to the API make sure to add the original token value as a basic Authorization header, for example with `curl`:
+
+    ```bash
+    curl -X GET localhost:8050/nodes -H "Authorization: Basic $DASH_API_TOKEN"
+    ```
+
+    Note that the API token should be placed where the `$DASH_API_TOKEN` variable is. It's nice to use an env variable here for added opacity when sending requests with `curl`.

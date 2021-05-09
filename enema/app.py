@@ -17,30 +17,17 @@ from typing import ClassVar
 import dash_auth
 from enema.crypto import decrypt_password, KEY
 from flask_restful import Api
-from enema.data_model import SubsystemsRoute, ScheduleRoute
+from enema.data_model import (
+    SubsystemsRoute, NodesRoute, db_connection,
+    read_table, Tables, update_status, get_rows,
+    get_joined_nodes_and_subsystems
+)
 from threading import Thread
 
 
 # DATABASE =====================================================================
 
-root = Path(os.path.dirname(__file__))
 
-
-@dataclass
-class Tables:
-    nodes: ClassVar[str] = "nodes"
-    subsystems: ClassVar[str] = "subsystems"
-    schedules: ClassVar[str] = "schedules"
-    auth: ClassVar[str] = "auth"
-
-db_connection = lambda: sqlite3.connect(root / 'app.db')
-
-read_table = lambda table: pd.read_sql_query(
-    f"SELECT * FROM {table}", 
-    db_connection()
-)
-
-get_rows = lambda df: [row.to_dict() for idx, row in df.iterrows()]
 
 # run schema if the tables don't exist already:
 with open(Path(os.path.dirname(__file__)) / "schema.sql", 'r') as f:
@@ -49,12 +36,6 @@ with open(Path(os.path.dirname(__file__)) / "schema.sql", 'r') as f:
 db_connection().executescript(schema_string)
 
 df_auth = read_table(Tables.auth)
-
-query = f"""
-select * from {Tables.subsystems}
-left join {Tables.nodes} 
-ON {Tables.subsystems}.node_id = {Tables.nodes}.node_id;
-"""
 
 # ==============================================================================
 
@@ -136,13 +117,13 @@ app.layout = html.Div(children=[
     State('state-click-refresh', 'data')
 )
 def on_load_subsystems(n_clicks, n_clicks_prev):
-    df = pd.read_sql_query(query, db_connection())
+    df = get_joined_nodes_and_subsystems()
     rows = get_rows(df)
     is_busy, style = validate(subsystem_id)
     subsystem_records = [
         html.Tr(children=[
-            html.Td(row['subsystem_id']),
-            html.Td(row['name']),
+            html.Td(row['subsystem_name']),
+            html.Td(row['node_name']),
             html.Td(
                 id=str(row['subsystem_id'])+'-busy', 
                 children=is_busy,
@@ -183,7 +164,7 @@ def on_load_subsystems(n_clicks, n_clicks_prev):
 
 
 def validate(subsystem_id: int):
-    df = pd.read_sql_query(query, db_connection())
+    df = get_joined_nodes_and_subsystems()
     validated = df.loc[subsystem_id]['is_busy']
     if validated == 1:
         return validated, {'background-color': 'red'}
@@ -193,12 +174,7 @@ def validate(subsystem_id: int):
         return validated, {'background-color': 'grey'}
 
 
-update_status = lambda val, id: db_connection().executescript(
-    f"UPDATE {Tables.subsystems} SET is_busy = {val} WHERE subsystem_id = {id}"
-)
-
-
-df = pd.read_sql_query(query, db_connection())
+df = get_joined_nodes_and_subsystems()
 for subsystem_id in df['subsystem_id']:
     @app.callback(
         Output(f'{subsystem_id}-busy', 'children'),
@@ -230,7 +206,7 @@ for subsystem_id in df['subsystem_id']:
 api = Api(app.server)
 
 api.add_resource(SubsystemsRoute, '/status')
-api.add_resource(ScheduleRoute, '/schedule')
+api.add_resource(NodesRoute, '/nodes')
 
 server = app.server
 
