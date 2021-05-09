@@ -46,7 +46,7 @@ def update_table(val, id, table, column, pk_column):
 
 def update_status(val, id):
     """Updates Subsystem status value"""
-    update_table(val, id, Tables.subsystems, 'status', 'subsystem_id')
+    update_table(val, id, Tables.subsystems, 'is_busy', 'subsystem_id')
 
 
 def get_joined_nodes_and_subsystems():
